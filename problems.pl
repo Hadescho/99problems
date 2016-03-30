@@ -65,3 +65,23 @@ uniq([H1, H2|L], X, R) :-
 uniq([H1, H2|L], X, R) :-
   uniq([H2|L], [H1|X], R).
 
+%p09
+% pack(List, Result).
+% packs repeated elements in their own sublists.
+
+pack(List, Result) :-
+  X = [],
+  pack(List, X, ReversedResult),
+  my_rev(ReversedResult, Result).
+pack([], R, R).
+pack([H1,H2|T], [[IXH|IXT]|XT], R) :-
+  H1 == IXH,
+  pack([H2|T], [[H1, IXH|IXT]|XT], R).
+pack([E], [[IXH|IXT]|XT], R) :-
+  E == IXH,
+  pack([], [[E, IXH|IXT]|XT], R).
+pack([H1, H2|T], X, R) :-
+  H1 == H2,
+  pack([H2|T], [[H1]|X], R).
+pack([H|T], X, R):-
+  pack(T, [H|X], R).
