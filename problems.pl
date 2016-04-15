@@ -85,3 +85,25 @@ pack([H1, H2|T], X, R) :-
   pack([H2|T], [[H1]|X], R).
 pack([H|T], X, R):-
   pack(T, [H|X], R).
+
+%p10 / 11
+% run length encoding data compression
+% encode [a,a,a,a,a,b,b,b,c] to [[a, 5], [b, 3], [c, 1]]
+
+%encode(List, Result)
+encode(L, A):-
+  A = [],
+  X = [],
+  pack(L, X, ReversedResult),
+  countBuild(ReversedResult, A).
+
+countBuild([], []).
+countBuild([[IH|IT]|T], A):-
+  count([IH|IT], N),
+  countBuild(T, A1),
+  A = [[N, IH] | A1].
+countBuild([El|T], A) :-
+  countBuild(T, A1),
+  A = [[1, El] | A1].
+
+
